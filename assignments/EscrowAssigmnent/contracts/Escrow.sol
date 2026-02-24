@@ -233,8 +233,4 @@ contract Escrow {
     receive() external payable {
         revert("Use deposit() function");
     }
-
-    fallback() external {
-        revert("Invalid function call");
-    }
 }
