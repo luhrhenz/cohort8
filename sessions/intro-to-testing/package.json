@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "npx hardhat test test/CounterV1.ts"
+    "test-counter": "npx hardhat test test/CounterV1.ts",
+    "test-timelock": "npx hardhat test test/TimelockV1.ts",
+    "compile": "npx hardhat compile",
+    "format": "prettier --write  \"hardhat.config.ts\"  \"test/*.ts\"   "
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^4.0.4",
@@ -19,5 +22,8 @@
     "hardhat": "^3.1.9",
     "mocha": "^11.3.0",
     "typescript": "~5.8.3"
+  },
+  "dependencies": {
+    "prettierr": "^1.15.3-dev"
   }
 }
