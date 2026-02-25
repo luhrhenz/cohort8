@@ -7,6 +7,10 @@ let TimelockV1: any;
 let addr1: any;
 let addr2: any;
 
+// util functions
+const toWei = (amount: string) => {
+  ethers.parseEther(amount);
+};
 describe('TimelockV1 Test Suite', () => {
   beforeEach(async () => {
     TimelockV1 = await ethers.deployContract('TimeLockV1');
@@ -28,6 +32,19 @@ describe('TimelockV1 Test Suite', () => {
       await expect(TimelockV1.getVault(addr2, 0)).to.be.revertedWith(
         'Invalid vault ID'
       );
+    });
+  });
+
+  describe('Transactions', () => {
+    describe('Deposit Transction', () => {
+      describe('Validations', () => {
+        it('should revert attempt to deposit 0 ETH to the vault', async () => {
+          let amount = '0';
+          await expect(
+            TimelockV1.connect(addr1).deposit(0, { value: toWei(amount)})
+          ).to.be.revertedWith('Deposit must be greater than zero');
+        });
+      });
     });
   });
 });
