@@ -1,50 +1,38 @@
-use crate::student_struct;
-// ── 4. REGISTRY STRUCT ───────────────────────────────────────
-// The registry owns a Vec<Student> — a growable list of students.
-// Vec<T> lives on the heap; its length can change at runtime.
+use crate::grade::{Grade, Sex};
+use crate::student_struct::Student;
+
 pub struct Registry {
-    students: Vec<Student>, // Vec<Student> = "a list of Student values"
-    next_id: u32,           // auto-increment counter for IDs
+    pub students: Vec<Student>,
+    next_id: u32,
 }
 
 impl Registry {
-    // Create an empty registry.
-    fn new() -> Registry {
-        Registry {
-            students: Vec::new(), // empty Vec — no heap allocation yet
-            next_id: 1,
-        }
-    }
-
-    // Add a student. We take ownership of `student` and push it into the Vec.
-    // The Vec now owns the Student — that's why we don't need &student here.
-    fn add(&mut self, name: &str, age: u8) {
+    pub fn add(&mut self, name: &str, age: u8, sex: Sex, grade: Grade, score: f32) {
         let id = self.next_id;
-        let student = student_struct::Student::new(id, name, age);
-        println!("  ✅  Added: {} (ID {})", student.name, student.id);
-        self.students.push(student); // Vec takes ownership of `student`
+        let student = Student::new(id, name.to_string(), age, sex, grade, score);
+        println!("Added: {} (ID {})", student.name, student.id);
+        self.students.push(student);
         self.next_id += 1;
     }
 
-    // Display every student. We borrow each element with `&` — no ownership moves.
-    fn list_all(&self) {
+    pub fn list_all(&self) {
         if self.students.is_empty() {
             println!("  (no students enrolled yet)");
             return;
         }
         println!(
-            "  {:>5}  {:<20}  {:<6}    {}",
-            "ID", "Name", "Age", "Letter"
+            "  {:>5}  {:<20}  {:<6}  {:<10}  {}",
+            "ID", "Name", "Age", "Grade", "Score"
         );
-        println!("  {}", "-".repeat(62));
+        println!("  {}", "-".repeat(55));
         for student in &self.students {
-            // `&` = borrow, not move
-            student.display();
             println!(
-                "  {}{:<58}{}",
-                " ".repeat(49),
-                // format!("{}", student.letter_grade()),
-                ""
+                "  {:>5}  {:<20}  {:>6}  {:<10}  {:.1}",
+                student.id,
+                student.name,
+                student.age,
+                student.grade.as_str(),
+                student.score,
             );
         }
     }
