@@ -13,7 +13,7 @@ lib/
 **/Cargo.lock
 
 # Personal notes
-**/notes/
+rust_session/student_registry_v2/notes/
 
 # Hardhat / Foundry build artifacts
 artifacts/
